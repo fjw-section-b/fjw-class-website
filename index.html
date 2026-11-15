@@ -25,6 +25,8 @@ nav a { color: white; text-decoration: none; font-size: 14px; }
 .btn { display: inline-block; background: #3478df; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; margin-top: 18px; border: none; cursor: pointer; font-size: 14px; }
 .btn.small { padding: 8px 14px; margin-top: 0; }
 .btn.danger { background: #d9534f; padding: 6px 12px; margin-top: 12px; font-size: 12px; }
+a.btn.small { margin-top: 14px; }
+.hint { font-size: 12px; color: #8a94a8; margin: -6px 0 12px; }
 .btn:disabled { opacity: .6; cursor: default; }
 input, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #d5dbe8; border-radius: 8px; font: inherit; }
 textarea { min-height: 110px; resize: vertical; }
@@ -78,6 +80,8 @@ footer { background: #101c36; color: #b9c5da; text-align: center; padding: 25px;
       <h3>Share your work</h3>
       <input id="postTitle" placeholder="Title" maxlength="120">
       <textarea id="postBody" placeholder="Write your article, idea or link…" maxlength="3000"></textarea>
+      <input id="postFile" type="url" placeholder="File link (optional) https://drive.google.com/…" maxlength="500">
+      <p class="hint">To share a PDF: upload it to Google Drive, tap Share, choose "Anyone with the link", then paste the link here.</p>
       <button id="postBtn" class="btn small">Publish post</button>
     </div>
     <div id="postGate" class="card">
@@ -159,6 +163,12 @@ function buildCard(d, collName, canDelete, tagText) {
   const card = el("div", "card");
   if (tagText) card.append(el("span", "tag", tagText));
   card.append(el("h3", "", d.data().title), el("p", "", d.data().body));
+  const f = d.data().fileUrl;
+  if (typeof f === "string" && f.startsWith("https://")) {
+    const a = el("a", "btn small", "Open file");
+    a.href = f; a.target = "_blank"; a.rel = "noopener noreferrer";
+    card.append(a);
+  }
   const by = d.data().authorName ? d.data().authorName + " · " : "";
   card.append(el("div", "meta", by + fmt(d.data().createdAt)));
   if (canDelete) {
@@ -209,16 +219,18 @@ onSnapshot(query(collection(db, "posts"), orderBy("createdAt", "desc")),
 
 $("postBtn").onclick = async () => {
   const title = $("postTitle").value.trim(), body = $("postBody").value.trim();
+  const fileUrl = $("postFile").value.trim();
   if (!title || !body) return alert("Please fill in the title and text.");
+  if (fileUrl && !fileUrl.startsWith("https://")) return alert("The file link must start with https://");
   $("postBtn").disabled = true;
   try {
     await addDoc(collection(db, "posts"), {
-      title, body,
+      title, body, fileUrl,
       uid: currentUser.uid,
       authorName: currentUser.displayName || "Student",
       createdAt: serverTimestamp()
     });
-    $("postTitle").value = ""; $("postBody").value = "";
+    $("postTitle").value = ""; $("postBody").value = ""; $("postFile").value = "";
   } catch (e) { alert("Could not publish: " + e.message); }
   $("postBtn").disabled = false;
 };
