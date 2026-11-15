@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FJW | Section B</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6fb;
+      color: #172033;
+    }
+
+    header {
+      background: #101c36;
+      color: white;
+      padding: 22px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .logo { font-size: 25px; font-weight: bold; }
+    .logo span { color: #65a6ff; }
+
+    nav { display: flex; gap: 20px; flex-wrap: wrap; }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .hero {
+      background: linear-gradient(120deg, #142447, #2457a0);
+      color: white;
+      padding: 75px 7%;
+      text-align: center;
+    }
+
+    .hero h1 { font-size: 38px; margin-bottom: 15px; }
+    .hero p { color: #d7e4ff; line-height: 1.7; }
+
+    .container {
+      max-width: 1000px;
+      margin: 35px auto;
+      padding: 0 18px;
+    }
+
+    .section-title { margin-bottom: 20px; font-size: 23px; }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.05);
+    }
+
+    .card h3 { margin-bottom: 10px; }
+    .card p { color: #68748a; line-height: 1.6; }
+
+    .tag {
+      display: inline-block;
+      background: #eaf1ff;
+      color: #2457a0;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #3478df;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 18px;
+      border: none;
+      cursor: pointer;
+    }
+
+    footer {
+      background: #101c36;
+      color: #b9c5da;
+      text-align: center;
+      padding: 25px;
+      margin-top: 50px;
+      font-size: 13px;
+    }
+
+    @media(max-width:600px) {
+      header { padding: 20px; }
+      nav { gap: 13px; }
+      .hero { padding: 55px 20px; }
+      .hero h1 { font-size: 29px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">FJW<span>.</span></div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#announcements">Announcements</a>
+      <a href="#posts">Student Posts</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <h1>Foreign Journalism Writing</h1>
+    <p>Section B — Lebanese University</p>
+    <p>A shared space for learning, writing and communication.</p>
+    <a href="#posts" class="btn">Explore Class Posts</a>
+  </section>
+
+  <main class="container">
+
+    <section id="announcements">
+      <h2 class="section-title">Class Announcements</h2>
+      <div class="card">
+        <span class="tag">Official</span>
+        <h3>Welcome to FJW Section B</h3>
+        <p>Welcome to our class platform. Stay connected and follow class updates and announcements here.</p>
+      </div>
+    </section>
+
+    <section id="posts">
+      <h2 class="section-title">Student Posts</h2>
+      <div class="card">
+        <h3>Share Your Work</h3>
+        <p>A space for students to share articles, ideas, projects and useful resources with their classmates.</p>
+        <a href="#" class="btn">Coming Soon</a>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2 class="section-title">About This Platform</h2>
+      <div class="card">
+        <h3>One Class. One Community.</h3>
+        <p>FJW Section B is a dedicated digital space designed to connect students, organize class information and encourage collaboration.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>FJW — Foreign Journalism Writing | Section B</p>
+    <p>Lebanese University</p>
+  </footer>
+
+</body>
+</html>
