@@ -1,239 +1,380 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101c36">
 <title>FJW | Section B</title>
+
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Arial, sans-serif; background: #f4f6fb; color: #172033; }
-header { background: #101c36; color: white; padding: 22px 6%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
-.logo { font-size: 25px; font-weight: bold; }
-.logo span { color: #65a6ff; }
-nav { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
-nav a { color: white; text-decoration: none; font-size: 14px; }
-.hero { background: linear-gradient(120deg, #142447, #2457a0); color: white; padding: 75px 7%; text-align: center; }
-.hero h1 { font-size: 38px; margin-bottom: 15px; }
-.hero p { color: #d7e4ff; line-height: 1.7; }
-.container { max-width: 1000px; margin: 35px auto; padding: 0 18px; }
-.section-title { margin-bottom: 20px; font-size: 23px; }
-.card { background: white; border-radius: 14px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 18px rgba(0,0,0,.05); }
-.card h3 { margin-bottom: 10px; }
-.card p { color: #68748a; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
-.meta { font-size: 12px; color: #8a94a8; margin-top: 12px; }
-.tag { display: inline-block; background: #eaf1ff; color: #2457a0; padding: 6px 12px; border-radius: 20px; font-size: 12px; margin-bottom: 12px; }
-.btn { display: inline-block; background: #3478df; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; margin-top: 18px; border: none; cursor: pointer; font-size: 14px; }
-.btn.small { padding: 8px 14px; margin-top: 0; }
-.btn.danger { background: #d9534f; padding: 6px 12px; margin-top: 12px; font-size: 12px; }
-a.btn.small { margin-top: 14px; }
-.hint { font-size: 12px; color: #8a94a8; margin: -6px 0 12px; }
-.btn:disabled { opacity: .6; cursor: default; }
-input, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #d5dbe8; border-radius: 8px; font: inherit; }
-textarea { min-height: 110px; resize: vertical; }
-.empty { color: #8a94a8; text-align: center; padding: 20px; }
-.hidden { display: none !important; }
-.user { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #d7e4ff; }
-footer { background: #101c36; color: #b9c5da; text-align: center; padding: 25px; margin-top: 50px; font-size: 13px; }
-@media(max-width:600px) { header { padding: 20px; } nav { gap: 13px; } .hero { padding: 55px 20px; } .hero h1 { font-size: 29px; } }
+:root {
+  --bg:#f4f6fb;
+  --surface:#ffffff;
+  --text:#172033;
+  --muted:#8792a7;
+  --primary:#3478df;
+  --border:#e7ebf2;
+  --sidebar:#101c36;
+  --shadow:0 5px 24px rgba(20,35,65,.05);
+}
+body.dark {
+  --bg:#101827;
+  --surface:#1b2638;
+  --text:#edf2fc;
+  --muted:#a0aec3;
+  --border:#2c394e;
+  --shadow:0 5px 24px rgba(0,0,0,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:.2s;
+}
+button,a{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:255px;background:var(--sidebar);color:white;
+  padding:27px 18px;position:fixed;inset:0 auto 0 0;
+  display:flex;flex-direction:column;z-index:10;
+}
+.logo{font-size:27px;font-weight:bold;padding:0 13px 35px}
+.logo span{color:#65a6ff}
+.nav-label{
+  color:#8294b4;font-size:10px;letter-spacing:1.5px;
+  padding:15px 13px 10px;
+}
+.nav-link{
+  display:flex;align-items:center;gap:13px;
+  color:#bdc9dd;text-decoration:none;padding:13px;
+  border-radius:9px;font-size:14px;margin-bottom:4px;
+  transition:.2s;
+}
+.nav-link:hover,.nav-link.active{
+  background:#243b61;color:white;
+}
+.nav-link.active{border-left:3px solid #65a6ff}
+.sidebar-bottom{margin-top:auto}
+.sidebar-footer{
+  border-top:1px solid #34435c;padding:20px 13px 0;
+  color:#8294b4;font-size:12px;line-height:1.7;
+}
+.main{margin-left:255px;width:calc(100% - 255px)}
+.topbar{
+  height:76px;background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;position:sticky;top:0;z-index:5;
+}
+.top-title{font-size:15px;font-weight:bold}
+.top-actions{display:flex;align-items:center;gap:12px}
+.icon-btn{
+  width:39px;height:39px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text);
+  border-radius:10px;font-size:17px;
+}
+.user-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:#dceaff;color:#2457a0;
+  display:grid;place-items:center;font-weight:bold;
+}
+.content{max-width:1250px;margin:auto;padding:35px 5%}
+.welcome{
+  background:linear-gradient(115deg,#142447,#2457a0);
+  color:white;border-radius:18px;padding:39px;
+  position:relative;overflow:hidden;margin-bottom:30px;
+}
+.welcome:after{
+  content:"";position:absolute;width:230px;height:230px;
+  border:35px solid rgba(255,255,255,.06);
+  border-radius:50%;right:-65px;top:-90px;
+}
+.welcome-tag{
+  color:#b8d3ff;font-size:11px;
+  letter-spacing:2px;margin-bottom:15px;
+}
+.welcome h1{font-size:30px;margin-bottom:12px}
+.welcome p{color:#d7e4ff;font-size:14px;line-height:1.7}
+.welcome button{
+  background:white;color:#2457a0;border:0;
+  padding:12px 18px;border-radius:8px;
+  margin-top:22px;font-weight:bold;
+}
+.section-heading{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:18px;
+}
+.section-heading h2{font-size:20px}
+.section-heading a{
+  color:var(--primary);text-decoration:none;font-size:13px;
+}
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:16px;margin-bottom:35px;
+}
+.stat-card,.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:13px;padding:22px;box-shadow:var(--shadow);
+}
+.stat-icon{
+  width:42px;height:42px;background:#eaf1ff;
+  color:#3478df;border-radius:11px;
+  display:grid;place-items:center;font-size:19px;
+  margin-bottom:15px;
+}
+.stat-card h3{font-size:23px;margin-bottom:5px}
+.stat-card p{font-size:12px;color:var(--muted)}
+.grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:16px;margin-bottom:35px;
+}
+.feature{
+  display:flex;gap:15px;align-items:flex-start;
+  text-decoration:none;color:var(--text);
+  transition:.2s;
+}
+.feature:hover{transform:translateY(-3px)}
+.feature-icon{
+  min-width:46px;height:46px;background:#eaf1ff;
+  color:#3478df;border-radius:12px;
+  display:grid;place-items:center;font-size:20px;
+}
+.feature h3{font-size:15px;margin-bottom:7px}
+.feature p{font-size:12px;color:var(--muted);line-height:1.6}
+.announcement{
+  background:var(--surface);border:1px solid var(--border);
+  padding:20px;border-radius:12px;margin-bottom:12px;
+}
+.announcement h3{font-size:15px;margin-bottom:8px}
+.announcement p{font-size:13px;color:var(--muted);line-height:1.6}
+.empty{color:var(--muted);font-size:13px;text-align:center;padding:25px}
+.page{display:none}
+.page.active{display:block}
+.mobile-menu{display:none}
+footer{
+  text-align:center;color:var(--muted);
+  font-size:11px;padding:30px 0;
+}
+@media(max-width:850px){
+  .sidebar{transform:translateX(-100%);transition:.25s}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;width:100%}
+  .mobile-menu{display:block}
+  .content{padding:25px 18px}
+}
+@media(max-width:550px){
+  .stats{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+  .welcome{padding:27px 22px}
+  .welcome h1{font-size:25px}
+  .topbar{padding:0 18px}
+}
 </style>
 </head>
-<body>
 
-<header>
+<body>
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
   <div class="logo">FJW<span>.</span></div>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#announcements">Announcements</a>
-    <a href="#posts">Student Posts</a>
-    <a href="#about">About</a>
-    <button id="loginBtn" class="btn small">Sign in with Google</button>
-    <div id="userBox" class="user hidden">
-      <span id="userName"></span>
-      <button id="logoutBtn" class="btn small">Sign out</button>
+
+  <div class="nav-label">MAIN MENU</div>
+  <a href="#home" class="nav-link active" data-page="home">⌂ Dashboard</a>
+  <a href="#announcements" class="nav-link" data-page="announcements">◈ Announcements</a>
+  <a href="#posts" class="nav-link" data-page="posts">▤ Student Posts</a>
+
+  <div class="nav-label">COMMUNITY</div>
+  <a href="#resources" class="nav-link" data-page="resources">▧ Resources</a>
+  <a href="#share" class="nav-link" data-page="share">✎ Share Your Work</a>
+  <a href="#about" class="nav-link" data-page="about">ⓘ About FJW</a>
+
+  <div class="sidebar-bottom">
+    <div class="nav-label">ACCOUNT</div>
+    <a href="#profile" class="nav-link" data-page="profile">◉ My Profile</a>
+    <a href="#settings" class="nav-link" data-page="settings">⚙ Settings</a>
+    <div class="sidebar-footer">
+      Foreign Journalism Writing<br>
+      Lebanese University · Section B
     </div>
-  </nav>
+  </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div class="top-actions">
+    <button class="icon-btn mobile-menu" id="menuBtn">☰</button>
+    <span class="top-title" id="pageTitle">Dashboard</span>
+  </div>
+  <div class="top-actions">
+    <button class="icon-btn" id="themeBtn" title="Toggle theme">☾</button>
+    <button class="icon-btn" title="Notifications">♧</button>
+    <div class="user-avatar">B</div>
+  </div>
 </header>
 
-<section class="hero" id="home">
-  <h1>Foreign Journalism Writing</h1>
-  <p>Section B — Lebanese University</p>
-  <p>A shared space for learning, writing and communication.</p>
-  <a href="#posts" class="btn">Explore Class Posts</a>
+<div class="content">
+
+<section class="page active" id="home">
+  <div class="welcome">
+    <div class="welcome-tag">FOREIGN JOURNALISM WRITING · SECTION B</div>
+    <h1>Welcome to your classroom.</h1>
+    <p>A space to learn, write, share and connect.<br>
+    Your academic community starts here.</p>
+    <button onclick="navigate('posts')">Explore Class Posts →</button>
+  </div>
+
+  <div class="section-heading">
+    <h2>Your Classroom</h2>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-icon">◈</div>
+      <h3>Updates</h3>
+      <p>Class announcements</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">▤</div>
+      <h3>Community</h3>
+      <p>Student publications</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">▧</div>
+      <h3>Resources</h3>
+      <p>Study materials</p>
+    </div>
+  </div>
+
+  <div class="section-heading">
+    <h2>Explore FJW</h2>
+  </div>
+
+  <div class="grid">
+    <a href="#announcements" class="card feature" onclick="navigate('announcements');return false">
+      <div class="feature-icon">◈</div>
+      <div><h3>Announcements</h3><p>Stay informed about class news and important updates.</p></div>
+    </a>
+    <a href="#posts" class="card feature" onclick="navigate('posts');return false">
+      <div class="feature-icon">▤</div>
+      <div><h3>Student Posts</h3><p>Discover ideas, articles and student contributions.</p></div>
+    </a>
+    <a href="#resources" class="card feature" onclick="navigate('resources');return false">
+      <div class="feature-icon">▧</div>
+      <div><h3>Resources</h3><p>Access useful academic files and materials.</p></div>
+    </a>
+    <a href="#share" class="card feature" onclick="navigate('share');return false">
+      <div class="feature-icon">✎</div>
+      <div><h3>Share Your Work</h3><p>Publish your writing and share your creativity.</p></div>
+    </a>
+  </div>
+
+  <div class="section-heading"><h2>Latest Announcements</h2>
+  <a href="#announcements" onclick="navigate('announcements');return false">View all →</a></div>
+  <div id="homeAnnouncements"><p class="empty">Announcements will appear here.</p></div>
 </section>
 
-<main class="container">
+<section class="page" id="announcements">
+  <div class="section-heading"><h2>Class Announcements</h2></div>
+  <div class="card"><p class="empty">Announcement system will be connected in the next step.</p></div>
+</section>
 
-  <section id="announcements">
-    <h2 class="section-title">Class Announcements</h2>
-    <div id="adminForm" class="card hidden">
-      <h3>New announcement</h3>
-      <input id="annTitle" placeholder="Title" maxlength="120">
-      <textarea id="annBody" placeholder="Message" maxlength="3000"></textarea>
-      <button id="annBtn" class="btn small">Publish announcement</button>
-    </div>
-    <div id="annList"><p class="empty">Loading announcements…</p></div>
-  </section>
+<section class="page" id="posts">
+  <div class="section-heading"><h2>Student Posts</h2></div>
+  <div class="card"><p class="empty">Student publications will appear here.</p></div>
+</section>
 
-  <section id="posts">
-    <h2 class="section-title">Student Posts</h2>
-    <div id="postForm" class="card hidden">
-      <h3>Share your work</h3>
-      <input id="postTitle" placeholder="Title" maxlength="120">
-      <textarea id="postBody" placeholder="Write your article, idea or link…" maxlength="3000"></textarea>
-      <input id="postFile" type="url" placeholder="File link (optional) https://drive.google.com/…" maxlength="500">
-      <p class="hint">To share a PDF: upload it to Google Drive, tap Share, choose "Anyone with the link", then paste the link here.</p>
-      <button id="postBtn" class="btn small">Publish post</button>
-    </div>
-    <div id="postGate" class="card">
-      <h3>Share your work</h3>
-      <p>Sign in with Google to publish your articles, ideas and resources.</p>
-    </div>
-    <div id="postList"><p class="empty">Loading posts…</p></div>
-  </section>
+<section class="page" id="resources">
+  <div class="section-heading"><h2>Learning Resources</h2></div>
+  <div class="card"><p class="empty">Your class resources will appear here.</p></div>
+</section>
 
-  <section id="about">
-    <h2 class="section-title">About This Platform</h2>
-    <div class="card">
-      <h3>One Class. One Community.</h3>
-      <p>FJW Section B is a dedicated digital space designed to connect students, organize class information and encourage collaboration.</p>
-    </div>
-  </section>
+<section class="page" id="share">
+  <div class="section-heading"><h2>Share Your Work</h2></div>
+  <div class="card"><p class="empty">The publishing system will be connected here.</p></div>
+</section>
 
+<section class="page" id="about">
+  <div class="section-heading"><h2>About FJW</h2></div>
+  <div class="card">
+    <h3 style="margin-bottom:12px">One Class. One Community.</h3>
+    <p style="color:var(--muted);line-height:1.8">
+      FJW Section B is a dedicated digital space designed to
+      connect students, organize class information and encourage
+      collaboration at the Lebanese University.
+    </p>
+  </div>
+</section>
+
+<section class="page" id="profile">
+  <div class="section-heading"><h2>My Profile</h2></div>
+  <div class="card"><p class="empty">Your profile will be available after account integration.</p></div>
+</section>
+
+<section class="page" id="settings">
+  <div class="section-heading"><h2>Settings</h2></div>
+  <div class="card">
+    <h3 style="margin-bottom:12px">Appearance</h3>
+    <button class="icon-btn" onclick="toggleTheme()">☾</button>
+    <p style="color:var(--muted);font-size:12px;margin-top:10px">Switch between Light and Dark Mode.</p>
+  </div>
+</section>
+
+<footer>FJW · Foreign Journalism Writing · Lebanese University</footer>
+</div>
 </main>
+</div>
 
-<footer>
-  <p>FJW — Foreign Journalism Writing | Section B</p>
-  <p>Lebanese University</p>
-</footer>
+<script>
+function navigate(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(a=>a.classList.remove('active'));
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, deleteDoc, doc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+  const target=document.getElementById(page);
+  if(!target)return;
+  target.classList.add('active');
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA1eIDoDDriIQi8u9pOOFK6v9VsjTKkf1I",
-  authDomain: "fjw-section-b.firebaseapp.com",
-  projectId: "fjw-section-b",
-  storageBucket: "fjw-section-b.firebasestorage.app",
-  messagingSenderId: "660131293569",
-  appId: "1:660131293569:web:e4b54a7b9b8444a6a2e080",
-  measurementId: "G-2M10HL836X"
-};
+  const link=document.querySelector('[data-page="'+page+'"]');
+  if(link)link.classList.add('active');
 
-// Change this to your own Google email. It must match the email in firestore.rules.
-const ADMIN_EMAIL = "sajjadmedlij@gmail.com";
+  const names={
+    home:'Dashboard',
+    announcements:'Announcements',
+    posts:'Student Posts',
+    resources:'Resources',
+    share:'Share Your Work',
+    about:'About FJW',
+    profile:'My Profile',
+    settings:'Settings'
+  };
+  document.getElementById('pageTitle').textContent=names[page]||'FJW';
+  history.replaceState(null,'','#'+page);
+  document.getElementById('sidebar').classList.remove('open');
+  window.scrollTo(0,0);
+}
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const $ = id => document.getElementById(id);
-let currentUser = null;
-let isAdmin = false;
-
-// ---------- Auth ----------
-$("loginBtn").onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e => alert("Sign-in failed: " + e.message));
-$("logoutBtn").onclick = () => signOut(auth);
-
-onAuthStateChanged(auth, user => {
-  currentUser = user;
-  isAdmin = !!user && user.email === ADMIN_EMAIL;
-  $("loginBtn").classList.toggle("hidden", !!user);
-  $("userBox").classList.toggle("hidden", !user);
-  $("userName").textContent = user ? (user.displayName || user.email) : "";
-  $("postForm").classList.toggle("hidden", !user);
-  $("postGate").classList.toggle("hidden", !!user);
-  $("adminForm").classList.toggle("hidden", !isAdmin);
-  renderAnn(lastAnn);
-  renderPosts(lastPosts);
+document.querySelectorAll('[data-page]').forEach(link=>{
+  link.addEventListener('click',e=>{
+    e.preventDefault();
+    navigate(link.dataset.page);
+  });
 });
 
-// ---------- Helpers ----------
-function fmt(ts) {
-  if (!ts || !ts.toDate) return "";
-  return ts.toDate().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
-}
-function el(tag, cls, text) {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text !== undefined) e.textContent = text;
-  return e;
-}
-function buildCard(d, collName, canDelete, tagText) {
-  const card = el("div", "card");
-  if (tagText) card.append(el("span", "tag", tagText));
-  card.append(el("h3", "", d.data().title), el("p", "", d.data().body));
-  const f = d.data().fileUrl;
-  if (typeof f === "string" && f.startsWith("https://")) {
-    const a = el("a", "btn small", "Open file");
-    a.href = f; a.target = "_blank"; a.rel = "noopener noreferrer";
-    card.append(a);
-  }
-  const by = d.data().authorName ? d.data().authorName + " · " : "";
-  card.append(el("div", "meta", by + fmt(d.data().createdAt)));
-  if (canDelete) {
-    const b = el("button", "btn danger", "Delete");
-    b.onclick = () => confirm("Delete this item?") && deleteDoc(doc(db, collName, d.id)).catch(e => alert(e.message));
-    card.append(b);
-  }
-  return card;
+function toggleTheme(){
+  document.body.classList.toggle('dark');
+  document.getElementById('themeBtn').textContent=
+    document.body.classList.contains('dark')?'☀':'☾';
 }
 
-// ---------- Announcements ----------
-let lastAnn = [];
-function renderAnn(docs) {
-  const box = $("annList");
-  box.replaceChildren();
-  if (!docs.length) { box.append(el("p", "empty", "No announcements yet.")); return; }
-  docs.forEach(d => box.append(buildCard(d, "announcements", isAdmin, "Official")));
-}
-onSnapshot(query(collection(db, "announcements"), orderBy("createdAt", "desc")),
-  snap => { lastAnn = snap.docs; renderAnn(lastAnn); },
-  () => { $("annList").replaceChildren(el("p", "empty", "Could not load announcements.")); });
+document.getElementById('themeBtn').addEventListener('click',toggleTheme);
+document.getElementById('menuBtn').addEventListener('click',()=>{
+  document.getElementById('sidebar').classList.toggle('open');
+});
 
-$("annBtn").onclick = async () => {
-  const title = $("annTitle").value.trim(), body = $("annBody").value.trim();
-  if (!title || !body) return alert("Please fill in the title and message.");
-  $("annBtn").disabled = true;
-  try {
-    await addDoc(collection(db, "announcements"), { title, body, createdAt: serverTimestamp() });
-    $("annTitle").value = ""; $("annBody").value = "";
-  } catch (e) { alert("Could not publish: " + e.message); }
-  $("annBtn").disabled = false;
-};
-
-// ---------- Student posts ----------
-let lastPosts = [];
-function renderPosts(docs) {
-  const box = $("postList");
-  box.replaceChildren();
-  if (!docs.length) { box.append(el("p", "empty", "No posts yet. Be the first to share.")); return; }
-  docs.forEach(d => {
-    const mine = currentUser && d.data().uid === currentUser.uid;
-    box.append(buildCard(d, "posts", mine || isAdmin));
-  });
-}
-onSnapshot(query(collection(db, "posts"), orderBy("createdAt", "desc")),
-  snap => { lastPosts = snap.docs; renderPosts(lastPosts); },
-  () => { $("postList").replaceChildren(el("p", "empty", "Could not load posts.")); });
-
-$("postBtn").onclick = async () => {
-  const title = $("postTitle").value.trim(), body = $("postBody").value.trim();
-  const fileUrl = $("postFile").value.trim();
-  if (!title || !body) return alert("Please fill in the title and text.");
-  if (fileUrl && !fileUrl.startsWith("https://")) return alert("The file link must start with https://");
-  $("postBtn").disabled = true;
-  try {
-    await addDoc(collection(db, "posts"), {
-      title, body, fileUrl,
-      uid: currentUser.uid,
-      authorName: currentUser.displayName || "Student",
-      createdAt: serverTimestamp()
-    });
-    $("postTitle").value = ""; $("postBody").value = ""; $("postFile").value = "";
-  } catch (e) { alert("Could not publish: " + e.message); }
-  $("postBtn").disabled = false;
-};
+const initial=location.hash.replace('#','');
+if(initial && document.getElementById(initial))navigate(initial);
 </script>
 </body>
 </html>
