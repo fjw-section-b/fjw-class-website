@@ -7,7 +7,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
-  signOut
+  signOut,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
 import {
@@ -15,10 +16,24 @@ import {
   collection,
   addDoc,
   getDocs,
+  getDoc,
+  doc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
   query,
   orderBy,
-  serverTimestamp
+  serverTimestamp,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject
+} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA1eIDoDDriIQi8u9pOOFK6v9VsjTKkf1I",
@@ -34,6 +49,7 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export const storage = getStorage(app);
 export const googleProvider = new GoogleAuthProvider();
 
 export {
@@ -41,10 +57,23 @@ export {
   createUserWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  onAuthStateChanged,
+
   collection,
   addDoc,
   getDocs,
+  getDoc,
+  doc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
   query,
   orderBy,
-  serverTimestamp
+  serverTimestamp,
+  onSnapshot,
+
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject
 };
