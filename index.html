@@ -164,6 +164,18 @@ const app = initializeApp({
 });
 const auth = getAuth(app), db = getFirestore(app);
 const ADMIN = "sajjadmedlij@gmail.com";
+// Supabase Storage (public key, safe to expose; the bucket limits size and file types)
+const SB = "https://ldeivcxrowpwhuftranq.supabase.co";
+const SBKEY = "sb_publishable_xZDGBkelm6VzbzwRhORejg_Tr_-0dZa";
+async function upload(file) {
+  if (file.size > 10 * 1024 * 1024) throw new Error("File is larger than 10 MB");
+  if (!["application/pdf", "image/jpeg", "image/png"].includes(file.type)) throw new Error("Only PDF, JPG or PNG files are allowed");
+  const ext = file.name.split(".").pop().toLowerCase().replace(/[^a-z0-9]/g, "");
+  const path = user.uid + "/" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "." + ext;
+  const r = await fetch(SB + "/storage/v1/object/uploads/" + path, { method: "POST", headers: { apikey: SBKEY, "Content-Type": file.type }, body: file });
+  if (!r.ok) throw new Error("Upload failed (" + r.status + ")");
+  return SB + "/storage/v1/object/public/uploads/" + path;
+}
 const $ = id => document.getElementById(id);
 let user = null, role = null, unsubs = [];
 const isMember = () => !!role;
@@ -209,6 +221,18 @@ for (const [k, c] of Object.entries(C)) {
     if (t !== "ta") i.type = t || "text";
     i.placeholder = l + (r ? "" : " (optional)"); i.maxLength = t === "ta" ? 3000 : 500;
     c.in[n] = i; c.form.append(i);
+    if (n === "fileUrl") {
+      const fi = el("input"); fi.type = "file"; fi.accept = "application/pdf,image/jpeg,image/png";
+      const st = el("p", "hint", "Or choose a PDF / image from your phone (max 10 MB).");
+      fi.onchange = async () => {
+        if (!fi.files[0]) return;
+        st.textContent = "Uploading…";
+        try { i.value = await upload(fi.files[0]); st.textContent = "Uploaded ✓ Now press Publish."; }
+        catch (e) { st.textContent = "Error: " + e.message; }
+        fi.value = "";
+      };
+      c.form.append(fi, st);
+    }
   }
   const b = el("button", "btn", "Publish"); b.style.marginTop = "0"; c.form.append(b);
   b.onclick = async () => {
