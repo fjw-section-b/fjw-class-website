@@ -76,7 +76,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:30px 0}
   <a href="#about" class="nav-link" data-page="about">ⓘ About FJW</a>
   <div class="sidebar-bottom">
     <div class="nav-label">ACCOUNT</div>
-    <a href="#members" class="nav-link hidden" id="navMembers" data-page="members">☰ Class Members</a>
+    <a href="#members" class="nav-link hidden" id="navMembers" data-page="members">☰ Staff &amp; Roles</a>
     <a href="#profile" class="nav-link" data-page="profile">◉ My Profile</a>
     <a href="#settings" class="nav-link" data-page="settings">⚙ Settings</a>
     <div class="sidebar-footer">Foreign Journalism Writing<br>Lebanese University · Section B</div>
@@ -124,7 +124,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:30px 0}
 </section>
 
 <section class="page" id="members">
-  <div class="section-heading"><h2>Class Members</h2></div>
+  <div class="section-heading"><h2>Staff &amp; Roles</h2></div>
   <div class="card item">
     <input id="mEmail" type="email" placeholder="Student Gmail address">
     <input id="mName" placeholder="Name">
@@ -182,7 +182,7 @@ const isMember = () => !!role;
 const isStaff = () => ["super_admin", "professor", "rep"].includes(role);
 
 // Navigation
-const names = { home: "Dashboard", announcements: "Announcements", assignments: "Assignments", posts: "Student Posts", resources: "Resources", share: "Share Your Work", about: "About FJW", members: "Class Members", profile: "My Profile", settings: "Settings" };
+const names = { home: "Dashboard", announcements: "Announcements", assignments: "Assignments", posts: "Student Posts", resources: "Resources", share: "Share Your Work", about: "About FJW", members: "Staff & Roles", profile: "My Profile", settings: "Settings" };
 function navigate(p) {
   if (!$(p)) return;
   document.querySelectorAll(".page,.nav-link").forEach(e => e.classList.remove("active"));
@@ -321,6 +321,7 @@ onAuthStateChanged(auth, async u => {
     const mail = u.email.toLowerCase();
     if (mail === ADMIN) role = "super_admin";
     else { try { const m = await getDoc(doc(db, "members", mail)); if (m.exists()) role = m.data().role; } catch (e) {} }
+    if (!role) role = "student";
   }
   $("loginBtn").classList.toggle("hidden", !!u);
   $("avatar").classList.toggle("hidden", !u);
